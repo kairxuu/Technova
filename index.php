@@ -70,7 +70,7 @@ require_once "db.php";
                     ?>
                     <div class="product-card">
                         <div class="product-image">
-                            <img src="assets/<?=$id?>.webp" alt="<?=$nom?>" onerror="this.src='assets/no-image.png'">
+                            <img src="Images/<?=$id?>.webp" alt="<?=$nom?>" onerror="this.src='Images/no-image.png'">
                         </div>
                         <div class="product-info">
                             <h3><?=$nom?></h3>
