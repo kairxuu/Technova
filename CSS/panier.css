@@ -1,0 +1,20 @@
+.panier-section {
+    padding: 20px;
+    color: var(--text-dark);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    margin: 20px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: var(--light-grey);
+    border: 1px solid var(--dark-light);
+}
+
+.panier-content {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-dark);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
