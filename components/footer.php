@@ -9,7 +9,7 @@
 
 <body>
     <footer>
-        <p>&copy; 2025 TN. Tous droits réservés.</p>
+        <p>2025 TN. Tous droits réservés.</p>
         
     </footer>   
 </body>

@@ -2,7 +2,7 @@
 body {
     background-color: #f5f5f5;
     margin: 0;
-    padding: 0;
+    padding-top: 60px; /* Hauteur de la navbar */
 }
 
 h2 {
@@ -28,16 +28,14 @@ h2 {
 .panel {
     display: flex;
     width: 1100px;
-    padding: 20px;
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     height: fit-content;
     position: sticky;
-    top: 100px;
+    top: 80px; /* Ajusté pour laisser de l'espace avec la navbar */
     margin-left: 20px;
-    height: 100vh;
-    max-width:35%;
+    max-width: 35%;
     flex-direction: row;
     gap: 20px;
     padding: 20px;
@@ -60,58 +58,7 @@ h2 {
     padding: 0;
 }
 
-.product-card {
-    background: white;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    transition: transform 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    max-width: 350px;
-    margin: 0 auto;
-}
-
-.product-card:hover {
-    transform: translateY(-5px);
-}
-
-.product-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-.product-card .card-content {
-    padding: 15px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.product-card h3, 
-.product-card p {
-    padding: 0 0 10px 0;
-    margin: 0;
-}
-
-.product-card button {
-    width: 100%;
-    margin-top: auto;
-    padding: 10px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.product-card button:hover {
-    background-color: var(--accent-color);
-}
-
+/* Les styles des cartes de produits ont été déplacés dans components.css */
 
 .filtre-prix {
     margin-left: 20px;

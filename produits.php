@@ -11,6 +11,7 @@ include 'db/db_implement.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Produits</title>
     <link rel="stylesheet" href="/Technova/CSS/global.css">
+    <link rel="stylesheet" href="/Technova/CSS/components.css">
     <link rel="stylesheet" href="/Technova/CSS/pageProd.css">
     <script src="/Technova/JS/priceFilter.js"></script>
 </head>
