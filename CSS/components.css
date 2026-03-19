@@ -1,366 +1,365 @@
 body {
-    background-color: var(--light);
+  background-color: var(--light);
 }
 
 .products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
-    padding: 0;
-    align-items: stretch;
-    width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  padding: 0;
+  align-items: stretch;
+  width: 100%;
 }
 
 .product-card {
-    background: white;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    max-width: 350px;
-    margin: 0 auto;
-    border: 1px solid #eee;
+  background: white;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+  border: 1px solid #eee;
 }
 
-
 .product-card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
 
 .product-card .card-content {
-    padding: 15px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
+  padding: 15px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .product-card h3 {
-    margin: 20px 0;
-    font-size: 1.1rem;
-    color: #333;
+  margin: 20px 0;
+  font-size: 1.1rem;
+  color: #333;
 }
 
 .product-card p {
-    color: #666;
-    margin: 0;
-    line-height: 1.4;
+  color: #666;
+  margin: 0;
+  line-height: 1.4;
 }
 
 .product-card .product-brand {
-    color: #666;
-    font-size: 0.9rem;
-    margin: 5px 0;
+  color: #666;
+  font-size: 0.9rem;
+  margin: 5px 0;
 }
 
 .product-card .product-price {
-    font-weight: bold;
-    color: var(--primary-color);
-    margin: 10px 0;
-    font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--primary-color);
+  margin: 10px 0;
+  font-size: 1.2rem;
 }
 
 .product-card .add-to-cart,
 .product-card button {
-    width: 100%;
-    margin-top: auto;
-    padding: 10px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: background-color 0.3s ease;
+  width: 100%;
+  margin-top: auto;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
 }
 
 .product-card .add-to-cart:hover,
 .product-card button:hover {
-    background-color: var(--accent-color);
+  background-color: var(--accent-color);
 }
 
 /* Boutons */
 button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: var(--transition);
+  padding: 10px 20px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: var(--transition);
 }
 
 button.primary {
-    background-color: var(--primary-color);
-    color: var(--text-light);
+  background-color: var(--primary-color);
+  color: var(--text-light);
 }
 
 /* Styles pour le formulaire d'ajout au panier */
 .add-to-cart-form {
-    margin-top: auto;
-    padding: 10px 15px 15px;
+  margin-top: auto;
+  padding: 10px 15px 15px;
 }
 
 .quantity-selector {
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .quantity-selector label {
-    font-size: 0.9rem;
-    color: #555;
+  font-size: 0.9rem;
+  color: #555;
 }
 
 .quantity-select {
-    padding: 5px 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    background-color: white;
-    font-size: 0.9rem;
+  padding: 5px 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 0.9rem;
 }
 
 .add-to-cart {
-    width: 100%;
-    padding: 10px;
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: background-color 0.2s ease;
-    font-size: 0.9rem;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+  font-size: 0.9rem;
 }
 
 .add-to-cart:hover {
-    background-color: var(--accent-color);
+  background-color: var(--accent-color);
 }
 
 .add-to-cart .icon {
-    width: 16px;
-    height: 16px;
-    fill: currentColor;
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
 }
 
 button.secondary {
-    background-color: var(--secondary-color);
-    color: var(--text-dark);
+  background-color: var(--secondary-color);
+  color: var(--text-dark);
 }
 
 button.accent {
-    background-color: var(--accent-color);
-    color: var(--text-light);
+  background-color: var(--accent-color);
+  color: var(--text-light);
 }
 
 /* Styles pour le panier */
 .panier-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .panier-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 30px;
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 30px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .panier-table th {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 15px;
-    text-align: left;
+  background-color: var(--primary-color);
+  color: white;
+  padding: 15px;
+  text-align: left;
 }
 
 .panier-table td {
-    padding: 15px;
-    border-bottom: 1px solid #eee;
-    vertical-align: middle;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
 }
 
 .produit-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .produit-image {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 4px;
-    border: 1px solid #eee;
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #eee;
 }
 
 .produit-details {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .produit-marque {
-    font-size: 0.9em;
-    color: #666;
-    margin-top: 3px;
+  font-size: 0.9em;
+  color: #666;
+  margin-top: 3px;
 }
 
 .quantite-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .btn-quantite {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    height: 30px;
-    background: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+  transition: all 0.2s;
 }
 
 .btn-quantite:hover {
-    background: #eee;
+  background: #eee;
 }
 
 .quantite {
-    min-width: 20px;
-    text-align: center;
+  min-width: 20px;
+  text-align: center;
 }
 
 .btn-supprimer {
-    color: #e74c3c;
-    text-decoration: none;
-    font-size: 0.9em;
-    transition: color 0.2s;
+  color: #e74c3c;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: color 0.2s;
 }
 
 .btn-supprimer:hover {
-    color: #c0392b;
-    text-decoration: underline;
+  color: #c0392b;
+  text-decoration: underline;
 }
 
 .panier-total {
-    text-align: right;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #eee;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 15px;
+  text-align: right;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 15px;
 }
 
 .panier-total span {
-    font-size: 1.3em;
-    font-weight: bold;
-    color: #333;
+  font-size: 1.3em;
+  font-weight: bold;
+  color: #333;
 }
 
 /* Style pour le bouton Continuer les achats */
 .btn-continuer {
-    background-color: #f8f9fa;
-    color: #333;
-    border: 1px solid #ddd;
+  background-color: #f8f9fa;
+  color: #333;
+  border: 1px solid #ddd;
 }
 
 .btn-continuer:hover {
-    background-color: #e9ecef;
-    border-color: #ced4da;
+  background-color: #e9ecef;
+  border-color: #ced4da;
 }
 
 /* Amélioration du survol pour le bouton Payer */
 .btn-payer:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #0056b3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .panier-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-    margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 /* Styles pour le conteneur des boutons du panier */
 .panier-boutons {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
-    justify-content: flex-end;
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+  justify-content: flex-end;
 }
 
 /* Style de base pour tous les boutons */
 .btn-continuer,
 .btn-payer {
-    display: inline-block;
-    padding: 12px 25px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    text-align: center;
+  display: inline-block;
+  padding: 12px 25px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-align: center;
 }
 
 /* Style spécifique pour le bouton Payer */
 .btn-payer {
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.3s;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s;
 }
 
 .btn-payer:hover {
-    background-color: var(--accent-color);
+  background-color: var(--accent-color);
 }
 
 .btn-continuer {
-    display: inline-block;
-    color: var(--primary-color);
-    text-decoration: none;
-    padding: 12px 20px;
-    border: 1px solid var(--primary-color);
-    border-radius: 4px;
-    transition: all 0.3s;
+  display: inline-block;
+  color: var(--primary-color);
+  text-decoration: none;
+  padding: 12px 20px;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  transition: all 0.3s;
 }
 
 .btn-continuer:hover {
-    background-color: var(--primary-color);
-    color: white;
+  background-color: var(--primary-color);
+  color: white;
 }
 
 .panier-vide {
-    text-align: center;
-    padding: 50px 20px;
+  text-align: center;
+  padding: 50px 20px;
 }
 
 .message-vide {
-    font-size: 1.2em;
-    color: #666;
-    margin-bottom: 20px;
+  font-size: 1.2em;
+  color: #666;
+  margin-bottom: 20px;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }

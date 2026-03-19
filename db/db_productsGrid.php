@@ -35,7 +35,10 @@
                         </p>
                         
                         <!-- Prix du produit -->
-                        <p class="product-price">Prix: <?php echo $leprix; ?> €</p>
+                        <div class="product-price" 
+                             data-produit-id="<?php echo $id; ?>">
+                            <?php echo $leprix; ?> €
+                        </div>
                         
                         <!-- Bouton d'ajout au panier -->
                         <form action="panier.php" method="get" class="add-to-cart-form">

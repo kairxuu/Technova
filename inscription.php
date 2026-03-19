@@ -34,7 +34,6 @@ $formData = [
     'telephone' => ''
 ];
 
-// 4. Vérification si le formulaire a été soumis (méthode POST recommandée pour les inscriptions)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // 5. Nettoyage et validation des données du formulaire
     $formData = [
@@ -102,8 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $hashedPassword = md5($password); // À remplacer par password_hash($password, PASSWORD_DEFAULT);
                 
                 // 10. Insertion du nouvel utilisateur (requête préparée)
-                $insertQuery = "INSERT INTO client (Identifiant, MDP, Prenom, Nom, Mail, Tel, DateInscription) 
-                               VALUES (?, ?, ?, ?, ?, ?, NOW())";
+                $insertQuery = "INSERT INTO client (Identifiant, MDP, Prenom, Nom, Mail, Tel) 
+                               VALUES (?, ?, ?, ?, ?, ?)";
                 
                 $stmt = $conn->prepare($insertQuery);
                 
@@ -258,6 +257,8 @@ if (isset($_SESSION['errors'])) {
                         >
                         <small id="identifiant-help" class="form-hint">Minimum 3 caractères</small>
                     </div>
+
+
                     
                     <div class="form-field">
                         <label for="prenom">Prénom</label>

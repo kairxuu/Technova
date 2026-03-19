@@ -6,6 +6,15 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 
 // Récupération du nombre d'articles dans le panier
 $cartCount = isset($_SESSION['panier']) ? count($_SESSION['panier']) : 0;
+
+// Initialisation de la requête SQL
+$sql = '';
+
+// Vérification si l'utilisateur est connecté avant de construire la requête
+if (isset($_SESSION['user_id'])) {
+    $user_id = intval($_SESSION['user_id']); // Sécurisation de l'ID utilisateur
+    $sql = "SELECT Id_Client FROM client WHERE ID_Client = " . $user_id;
+}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -71,8 +80,15 @@ $cartCount = isset($_SESSION['panier']) ? count($_SESSION['panier']) : 0;
             </a></li>
             
             <?php if (isset($_SESSION['user_id'])): ?>
+                <span class="nav-item user-info" title="Connecté">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <?=htmlspecialchars($_SESSION["username"])?></span>   
                 <!-- Lien de déconnexion visible uniquement quand connecté -->
                 <li><a href="deconnexion.php" class="menu-item">
+                    
                     <svg class="icon" viewBox="0 0 24 24" width="24" height="24">
                         <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
                     </svg>

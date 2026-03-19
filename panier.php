@@ -1,19 +1,12 @@
 <?php
-/**
- * Fichier : panier.php
- * Gestion du panier d'achat
- * 
- * Fonctionnalités :
- * - Affichage des produits ajoutés au panier
- * - Ajout/Suppression de produits
- * - Calcul du total des achats
- * - Redirection vers la page de paiement
- */
-
 // 1. Initialisation de la session
 if (session_status() !== PHP_SESSION_ACTIVE) {
     session_start();
 }
+
+// Inclusion des fonctions de base de données
+require_once 'db/db.php'; // Pour la connexion $conn
+require_once 'db/db_implement.php'; // Pour la fonction verifierCodePromo
 
 // 2. Initialisation du panier s'il n'existe pas
 if (!isset($_SESSION['panier'])) {
@@ -22,6 +15,7 @@ if (!isset($_SESSION['panier'])) {
 
 // 3. Gestion des actions sur le panier (ajout/suppression)
 if (isset($_GET['action'])) {
+    
     // Vérification de l'authentification de l'utilisateur
     if (!isset($_SESSION['user_id'])) {
         $_SESSION['redirect_after_login'] = 'panier.php';
@@ -48,10 +42,10 @@ if (isset($_GET['action'])) {
                     unset($_SESSION['panier'][$id]);
                     $_SESSION['message'] = 'Produit retiré du panier.';
                 }
-                break;
+                break;  
         }
     }
-    
+
     // Redirection pour éviter le rechargement de la page (double soumission)
     header('Location: ' . ($_SERVER['HTTP_REFERER'] ?? 'panier.php'));
     exit();
@@ -100,54 +94,70 @@ require_once 'components/header.php';
                 // Préparation et exécution sécurisée de la requête
                 $stmt = $conn->prepare($query);
                 
-                // Construction dynamique des paramètres pour bind_param
-                $types = str_repeat('i', count($ids));
-                $bindParams = [&$types];
+                // Exécution de la requête avec les paramètres (PHP 8.1+)
+                // La méthode execute() gère automatiquement la liaison des paramètres
+                $stmt->execute($ids);
+                $result = $stmt->get_result();
                 
-                // Ajout des références des IDs comme paramètres
-                foreach ($ids as &$id) {
-                    $bindParams[] = &$id;
+                // Initialisation des variables
+                $total = 0;
+                $panierItems = []; // Pour stocker les produits avec leurs quantités
+
+                // Parcours des résultats et calcul des totaux
+                while ($row = $result->fetch_assoc()) {
+                    $idProduit = $row['id'];
+                    // Récupération de la quantité depuis la session
+                    $quantite = isset($_SESSION['panier'][$idProduit]) ? (int)$_SESSION['panier'][$idProduit] : 1;
+                    $prixUnitaire = (float)$row['prix'];
+                    $prixTotalProduit = $prixUnitaire * $quantite;
+                    $total += $prixTotalProduit;
+                    
+                    // Stocke les informations du produit pour l'affichage
+                    $row['quantite'] = $quantite;
+                    $row['prix_unitaire'] = $prixUnitaire;
+                    $row['prix_total'] = $prixTotalProduit;
+                    $panierItems[] = $row;
                 }
                 
-                // Appel dynamique de bind_param avec les paramètres
-                call_user_func_array([$stmt, 'bind_param'], $bindParams);
-                $stmt->execute();
-                $result = $stmt->get_result();
+                // Réinitialisation du total avant de recalculer
                 $total = 0;
+                
+                // Calcul du total basé sur les articles du panier
+                foreach ($panierItems as &$item) {
+                    $total += $item['prix_total'];
+                }
             ?>
-                <!-- Liste des produits dans le panier -->
-                <div class="produits-panier">
-                    <?php while ($produit = $result->fetch_assoc()): 
-                        // Calcul de la quantité et du sous-total pour chaque produit
-                        $quantite = $_SESSION['panier'][$produit['id']];
-                        $sousTotal = $produit['prix'] * $quantite;
-                        $total += $sousTotal;
+            <!-- Liste des produits dans le panier -->
+            <div class="produits-panier">
+                <?php foreach ($panierItems as $row): 
+                    $quantite = $row['quantite'];
+                    $sousTotal = $row['prix_total'];
                     ?>
                         <article class="produit-panier">
                             <!-- Image du produit -->
-                            <img src="components/Images/<?= $produit['id'] ?>.webp" 
-                                 alt="<?= htmlspecialchars($produit['nom']) ?>"
+                            <img src="components/Images/<?= $row['id'] ?>.webp" 
+                                 alt="<?= htmlspecialchars($row['nom']) ?>"
                                  loading="lazy">
                             
                             <!-- Informations du produit -->
                             <div class="infos-produit">
-                                <h3><?= htmlspecialchars($produit['nom']) ?></h3>
-                                <?php if (!empty($produit['marque'])): ?>
-                                    <p class="marque">Marque : <?= htmlspecialchars($produit['marque']) ?></p>
+                                <h3><?= htmlspecialchars($row['nom']) ?></h3>
+                                <?php if (!empty($row['marque'])): ?>
+                                    <p class="marque">Marque : <?= htmlspecialchars($row['marque']) ?></p>
                                 <?php endif; ?>
-                                <p class="prix">Prix unitaire : <?= number_format($produit['prix'], 2, ',', ' ') ?> €</p>
+                                <p class="prix">Prix unitaire : <?= number_format($row['prix_unitaire'], 2, ',', ' ') ?> €</p>
                                 <p class="quantite">Quantité : <?= $quantite ?></p>
                                 <p class="sous-total">Sous-total : <?= number_format($sousTotal, 2, ',', ' ') ?> €</p>
                             </div>
                             
                             <!-- Actions possibles sur le produit -->
                             <div class="actions">
-                                <a href="panier.php?action=ajouter&id=<?= $produit['id'] ?>" 
+                                <a href="panier.php?action=ajouter&id=<?= $row['id'] ?>" 
                                    class="btn-ajouter" 
                                    title="Ajouter un exemplaire">
                                     <i class="fas fa-plus"></i>
                                 </a>
-                                <a href="panier.php?action=supprimer&id=<?= $produit['id'] ?>" 
+                                <a href="panier.php?action=supprimer&id=<?= $row['id'] ?>" 
                                    class="btn-supprimer" 
                                    title="Supprimer du panier"
                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">
@@ -156,13 +166,12 @@ require_once 'components/header.php';
                                 </a>
                             </div>
                         </article>
-                    <?php endwhile; ?>
+                    <?php endforeach; ?>
                 </div>
 
-                <!-- Récapitulatif du panier -->
-                <div class="panier-resume">
-                    <div class="panier-total">
-                        <p>Total des achats : <strong><?= number_format($total, 2, ',', ' ') ?> €</strong></p>
+                <div class="panier-total">
+                    <p>Total des achats : <strong><?= number_format($total, 2, ',', ' ') ?> €</strong></p>
+                    </div>
                     </div>
                     
                     <div class="panier-actions">
@@ -174,12 +183,13 @@ require_once 'components/header.php';
                         </a>
                     </div>
                 </div>
-            <?php 
+
+                <?php 
                 // Fermeture de la connexion à la base de données
                 $stmt->close();
                 $conn->close();
-            endif; 
-            ?>
+                ?>
+            <?php endif; ?>
         </div>
     </section>
 </main>
