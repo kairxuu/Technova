@@ -49,6 +49,9 @@ function displayProducts($result) {
             
             // Récupération de la description avec une valeur par défaut si elle n'existe pas
             $description = isset($row['proddesc']) ? htmlspecialchars($row['proddesc']) : 'Aucune description';
+            
+            // Récupération de l'image
+            $image = !empty($row['image']) ? htmlspecialchars($row['image']) : $id . '.webp';
             ?>
             <!-- 
                 CARTE PRODUIT
@@ -57,10 +60,10 @@ function displayProducts($result) {
             <article class="product-card" itemscope itemtype="https://schema.org/Product">
                 <!-- Image du produit -->
                 <img 
-                    src="components/Images/<?= $id ?>.webp" 
+                    src="components/images_pc/<?= $image ?>" 
                     alt="<?= $nom ?>" 
                     loading="lazy" 
-                    onerror="this.onerror=null; this.src='components/Images/default-product.webp'"
+                    onerror="this.onerror=null; this.src='components/images_pc/default-product.webp'"
                     itemprop="image">
                 
                 <div class="card-content">
@@ -148,7 +151,7 @@ function displayProducts($result) {
                 
                 // Requête de recherche simple avec les bons noms de colonnes
                 $sql = "SELECT p.ID_PRO as 'idpro', p.Nom as 'prodnom', p.Description as 'proddesc', 
-                               p.Prix as 'prodprix', m.Nom as 'marnom' 
+                               p.Prix as 'prodprix', m.Nom as 'marnom', p.image as 'image'
                         FROM produit p 
                         LEFT JOIN marque m ON p.ID_Marque = m.ID_Marque 
                         WHERE p.Nom LIKE ? OR p.Description LIKE ?";

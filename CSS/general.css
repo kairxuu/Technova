@@ -1,103 +1,147 @@
+/* GENERAL — Hero & sections */
 
-/* HERO BANNER */
 .hero-banner {
-    padding: 0;
-    margin: 20px auto 0; /* Marge en haut uniquement, centré horizontalement */
-    width: calc(100% - 40px); /* Largeur totale moins les marges */
-    max-width: 1800px; /* Largeur maximale pour les grands écrans */
-    height: calc(50vh - 60px); /* Soustrait la hauteur de la navbar */
-    min-height: calc(500px - 60px); /* Ajuste la hauteur minimale */
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+    position: relative;
+    margin: 24px auto 0;
+    width: calc(100% - 48px);
+    max-width: 1800px;
+    height: clamp(360px, 55vh, 620px);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: var(--border-radius);
-    background-image: linear-gradient(to bottom right, blue, rgba(128, 0, 128, 0.608));
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--box-shadow); /* Ajout d'une ombre pour plus de profondeur */
+    background: var(--gradient-hero);
+    box-shadow: var(--shadow-lg), var(--shadow-glow-lg);
+}
+
+.hero-banner::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse 60% 50% at 20% 50%, rgba(124,58,237,0.35), transparent 60%),
+        radial-gradient(ellipse 50% 60% at 80% 30%, rgba(6,182,212,0.2), transparent 60%);
+    z-index: 1;
+}
+
+.hero-banner::after {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+        linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 1;
 }
 
 .hero-banner-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
     text-align: center;
-    color: white;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+    width: 100%; max-width: 800px;
     padding: 2rem;
-    box-sizing: border-box;
-    position: relative;
-    z-index: 2;
 }
 
 .hero-banner-content h1 {
-    color: var(--text-light);
-    margin: 0 0 1rem 0;
-    font-size: 3rem;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin: 0 0 1rem;
+    background: linear-gradient(135deg, #fff, #c4b5fd 50%, #67e8f9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.1;
 }
 
 .hero-banner-content h3 {
-    margin: 0 0 2rem 0;
-    font-weight: normal;
-    font-size: 1.5rem;
-    color: var(--text-light);
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
+    font-weight: 400;
+    color: rgba(255,255,255,0.6);
+    margin: 0 0 2.5rem;
 }
 
-.hero-banner-content button {
-    margin-top: 1.2rem;
-    font-size: 1rem;
+.buttons-hero {
+    display: flex; gap: 1rem;
+    justify-content: center; align-items: center;
+    flex-wrap: wrap;
 }
 
+.buttons-hero button.primary {
+    padding: 0.875rem 2rem;
+    font-size: var(--font-size-md);
+    font-family: var(--font);
+    font-weight: 600;
+    border: none; border-radius: var(--radius-full);
+    cursor: pointer; transition: all var(--transition);
+}
 
+.buttons-hero button.primary:first-child {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: 0 4px 20px rgba(124,58,237,0.4);
+}
 
-/* Section Produits populaires */
+.buttons-hero button.primary:first-child:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(124,58,237,0.55);
+}
+
+.buttons-hero button.primary:last-child {
+    background: var(--bg-glass);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+}
+
+.buttons-hero button.primary:last-child:hover {
+    background: var(--bg-glass-hover);
+    border-color: rgba(255,255,255,0.15);
+    transform: translateY(-2px);
+}
+
+/* Section produits populaires */
 .preview-prod {
-    padding: 60px 0;
-    margin: 20px auto 0; /* Marge en haut uniquement, centré horizontalement */
-    width: calc(100% - 40px); /* Largeur totale moins les marges */
-    max-width: 1800px; /* Largeur maximale pour les grands écrans */
-    min-height: calc(500px - 60px); /* Ajuste la hauteur minimale */
+    padding: 80px 0 60px;
+    margin: 0 auto;
+    width: calc(100% - 48px);
+    max-width: 1800px;
 }
 
 .preview-prod .container {
     max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
+    margin: 0 auto; padding: 0 20px;
+    display: flex; flex-direction: column;
 }
 
 .preview-prod h2 {
     text-align: center;
-    margin: 0 0 30px 0;
-    font-size: 2rem;
-    color: var(--dark);
-    width: 100%;
+    margin: 0 0 48px;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text-primary);
+    position: relative; width: 100%;
 }
 
-/* Les styles des cartes de produits ont été déplacés dans components.css */
-
-.buttons-hero {
-    display: flex;
-    gap: 1rem;
-    font-size: 30px;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
+.preview-prod h2::after {
+    content: '';
+    display: block;
+    width: 60px; height: 3px;
+    background: var(--gradient-primary);
+    border-radius: var(--radius-full);
+    margin: 16px auto 0;
 }
 
 @media (max-width: 768px) {
-    .buttons-hero {
-        flex-direction: column;
-        gap: 0.5rem;
+    .hero-banner {
+        width: calc(100% - 24px);
+        margin: 12px auto 0;
+        border-radius: var(--radius-lg);
+        height: clamp(300px, 60vw, 450px);
     }
+    .preview-prod { width: calc(100% - 24px); padding: 48px 0 40px; }
+    .buttons-hero { flex-direction: column; gap: 0.75rem; width: 100%; }
+    .buttons-hero button.primary { width: 100%; max-width: 300px; }
 }
-
-
-

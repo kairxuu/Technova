@@ -4,7 +4,8 @@ $sql = "SELECT
             p.ID_PRO as 'idpro', 
             p.Nom as 'prodnom', 
             p.Description as 'proddesc', 
-            p.Prix as 'prodprix', 
+            p.Prix as 'prodprix',
+            p.image as 'image', 
             m.Nom as 'marnom' 
         FROM 
             produit p 

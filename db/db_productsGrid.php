@@ -9,12 +9,13 @@
                         $leprix = isset($row["prodprix"]) ? number_format(floatval($row["prodprix"]), 2, ',', ' ') : '0,00';
                         $marque = !empty($row["marnom"]) ? 'Marque : ' . htmlspecialchars($row["marnom"]) : '';
                         $description = isset($row["proddesc"]) ? htmlspecialchars($row["proddesc"]) : 'Aucune description disponible';
+                        $image = !empty($row["image"]) ? htmlspecialchars($row["image"]) : $id . '.webp';
                     ?>
                     
                     <!-- Carte de produit individuelle -->
                     <div class="product-card">
                         <!-- Image du produit -->
-                        <img src="components/Images/<?=$id?>.webp" alt="<?=$lenom?>">
+                        <img src="components/images_pc/<?=$image?>" alt="<?=$lenom?>">
 
                         <!-- Affichage du nom du produit -->
                         <h3><?php echo $lenom; ?></h3>

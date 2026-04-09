@@ -85,7 +85,7 @@ require_once 'components/header.php';
                 $placeholders = str_repeat('?,', count($ids) - 1) . '?';
                 
                 // Requête SQL optimisée avec jointure pour récupérer les produits et leurs marques
-                $query = "SELECT p.ID_PRO as id, p.Nom as nom, p.Prix as prix, 
+                $query = "SELECT p.ID_PRO as id, p.Nom as nom, p.Prix as prix, p.image as image,
                                  m.Nom as marque 
                           FROM produit p 
                           LEFT JOIN marque m ON p.ID_Marque = m.ID_Marque 
@@ -135,7 +135,8 @@ require_once 'components/header.php';
                     ?>
                         <article class="produit-panier">
                             <!-- Image du produit -->
-                            <img src="components/Images/<?= $row['id'] ?>.webp" 
+                            <?php $image = !empty($row['image']) ? htmlspecialchars($row['image']) : $row['id'] . '.webp'; ?>
+                            <img src="components/images_pc/<?= $image ?>" 
                                  alt="<?= htmlspecialchars($row['nom']) ?>"
                                  loading="lazy">
                             

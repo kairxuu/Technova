@@ -49,6 +49,7 @@ include 'components/header.php';
                         $leprix = isset($row["prodprix"]) ? number_format(floatval($row["prodprix"]), 2, ',', ' ') : '0,00';
                         $marque = !empty($row["marnom"]) ? 'Marque : ' . htmlspecialchars($row["marnom"]) : '';
                         $description = isset($row["proddesc"]) ? htmlspecialchars($row["proddesc"]) : 'Aucune description disponible';
+                        $image = !empty($row["image"]) ? htmlspecialchars($row["image"]) : $id . '.webp';
                     ?>
                     
                     <!-- Carte de produit individuelle -->
@@ -60,7 +61,7 @@ include 'components/header.php';
                     -->
                     <div class="product-card">
                         <!-- Image du produit -->
-                        <img src="components/Images/<?=$id?>.webp" alt="<?=$lenom?>">
+                        <img src="components/images_pc/<?=$image?>" alt="<?=$lenom?>">
                         <!-- Contenu de la carte de produit -->
                         <div class="card-content">
                             <!-- Nom du produit -->

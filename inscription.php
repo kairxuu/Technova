@@ -171,6 +171,11 @@ if (isset($_SESSION['errors'])) {
     
     <title>Inscription - Technova</title>
     
+    <!-- Google Fonts : Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <!-- Feuilles de style -->
     <link rel="stylesheet" href="/Technova/CSS/global.css">
     <link rel="stylesheet" href="/Technova/CSS/login.css">
@@ -180,48 +185,6 @@ if (isset($_SESSION['errors'])) {
     
     <!-- Inclusion de l'en-tête du site -->
     <?php include 'components/header.php'; ?>
-    
-    <style>
-        /* Styles spécifiques à la page d'inscription */
-        .password-strength {
-            margin-top: 5px;
-            font-size: 0.85rem;
-        }
-        
-        .password-strength.weak { color: #dc3545; }
-        .password-strength.medium { color: #ffc107; }
-        .password-strength.strong { color: #28a745; }
-        
-        .form-field {
-            margin-bottom: 1.25rem;
-        }
-        
-        .form-field label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-        
-        .form-field input[type="text"],
-        .form-field input[type="email"],
-        .form-field input[type="tel"],
-        .form-field input[type="password"] {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-        
-        .form-actions {
-            margin-top: 1.5rem;
-        }
-        
-        .login-link {
-            margin-top: 1rem;
-            text-align: center;
-        }
-    </style>
 </head>
 <body>
     <div class="background-wrapper"></div>
@@ -229,7 +192,8 @@ if (isset($_SESSION['errors'])) {
     <main class="main-content">
         <section class="formulaire-inscription">
             <div class="formulaire-container">
-                <h1>Créer un compte</h1>
+                <h1>Créer un compte ✨</h1>
+                <p class="form-subtitle">Rejoignez Technova et profitez de tous nos avantages</p>
                 
                 <?php if (!empty($errors)): ?>
                     <div class="alert alert-error" role="alert">
@@ -320,13 +284,14 @@ if (isset($_SESSION['errors'])) {
                                 type="password" 
                                 id="mdp" 
                                 name="mdp" 
+                                placeholder="••••••••"
                                 required
                                 minlength="8"
                                 autocomplete="new-password"
                                 aria-describedby="password-strength password-help"
                                 oninput="checkPasswordStrength(this.value)"
                             >
-                            <button type="button" class="toggle-password" onclick="togglePassword('mdp')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #666;">
+                            <button type="button" class="toggle-password" onclick="togglePassword('mdp')" aria-label="Afficher/masquer">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>
@@ -343,12 +308,13 @@ if (isset($_SESSION['errors'])) {
                                 type="password" 
                                 id="confirm_mdp" 
                                 name="confirm_mdp" 
+                                placeholder="••••••••"
                                 required
                                 minlength="8"
                                 autocomplete="new-password"
                                 oninput="checkPasswordMatch()"
                             >
-                            <button type="button" class="toggle-password" onclick="togglePassword('confirm_mdp')" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; color: #666;">
+                            <button type="button" class="toggle-password" onclick="togglePassword('confirm_mdp')" aria-label="Afficher/masquer">
                                 <i class="fas fa-eye"></i>
                             </button>
                         </div>

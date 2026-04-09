@@ -1,71 +1,33 @@
-/* Style général de la page */
-body {
-    background-color: #f5f5f5;
-    margin: 0;
-    padding-top: 60px; /* Hauteur de la navbar */
+/* PAGE PRODUITS */
+body { background-color: var(--bg); padding-top: 70px; }
+h2 { margin: 48px 0 32px; text-align: center; font-size: clamp(1.75rem, 4vw, 2.25rem); font-weight: 700; letter-spacing: -0.5px; color: var(--text-primary); }
+h2::after { content: ''; display: block; width: 50px; height: 3px; background: var(--gradient-primary); border-radius: var(--radius-full); margin: 14px auto 0; }
+
+.produits { display: flex; max-width: 1600px; margin: 24px auto 60px; padding: 0 32px; gap: 32px; align-items: flex-start; }
+.container { flex: 1; padding: 0; background: none; min-width: 0; }
+.products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; width: 100%; margin: 0; padding: 0; }
+
+/* Panneau filtre */
+.panel { width: 260px; flex-shrink: 0; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); position: sticky; top: 90px; padding: 28px 24px; display: flex; flex-direction: column; gap: 20px; }
+.panel h3, .panel label, .panel legend { font-size: var(--font-size-sm); font-weight: 600; color: var(--text-secondary); letter-spacing: 0.5px; text-transform: uppercase; }
+
+/* Filtre prix */
+.filtre-prix { display: flex; flex-direction: column; gap: 14px; }
+.filtre-prix label { font-size: var(--font-size-sm); font-weight: 500; color: var(--text-secondary); text-transform: none; letter-spacing: 0; }
+.filtre-prix input[type="range"] { -webkit-appearance: none; appearance: none; width: 100%; height: 4px; border-radius: var(--radius-full); background: linear-gradient(to right, var(--primary) 0%, var(--primary) var(--pct, 100%), var(--border) var(--pct, 100%), var(--border) 100%); outline: none; cursor: pointer; }
+.filtre-prix input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: var(--primary-light); border-radius: 50%; cursor: pointer; box-shadow: 0 0 0 4px rgba(124,58,237,0.2); transition: box-shadow var(--transition-fast); }
+.filtre-prix input[type="range"]::-webkit-slider-thumb:hover { box-shadow: 0 0 0 6px rgba(124,58,237,0.3); }
+.filtre-prix span, .filtre-prix output { font-size: var(--font-size-sm); color: var(--text-primary); font-weight: 600; }
+.filtre-prix button, .panel button { padding: 10px 20px; background: var(--gradient-primary); color: white; border: none; border-radius: var(--radius-full); font-size: var(--font-size-sm); font-weight: 600; font-family: var(--font); cursor: pointer; transition: all var(--transition); box-shadow: 0 2px 10px rgba(124,58,237,0.3); width: 100%; }
+.filtre-prix button:hover, .panel button:hover { filter: brightness(1.1); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(124,58,237,0.45); }
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .produits { flex-direction: column; padding: 0 20px; }
+    .panel { width: 100%; position: static; flex-direction: row; flex-wrap: wrap; align-items: center; }
+    .filtre-prix { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; }
 }
-
-h2 {
-    margin: 40px 0 30px;
-    text-align: center;
-    font-size: 2.5rem;
-    font-weight: 200;
-    color: #333;
+@media (max-width: 768px) {
+    .produits { padding: 0 12px; gap: 20px; }
+    h2 { margin: 32px 0 24px; }
 }
-
-/* Conteneur principal */
-.produits {
-    display: flex;
-    max-width: 1600px;
-    margin: 20px auto 0;
-    padding: 0 40px;
-    gap: 40px;
-    margin-bottom: 50px;
-
-}
-
-/* Panneau latéral */
-.panel {
-    display: flex;
-    width: 1100px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    height: fit-content;
-    position: sticky;
-    top: 80px; /* Ajusté pour laisser de l'espace avec la navbar */
-    margin-left: 20px;
-    max-width: 35%;
-    flex-direction: row;
-    gap: 20px;
-    padding: 20px;
-}
-
-/* Conteneur de la grille */
-.container {
-    flex: 1;
-    padding: 0;
-    background: none;
-}
-
-/* Grille de produits */
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-/* Les styles des cartes de produits ont été déplacés dans components.css */
-
-.filtre-prix {
-    margin-left: 20px;
-    max-width: 200px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-

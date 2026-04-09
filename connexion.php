@@ -125,6 +125,14 @@ unset($_SESSION['form_data'], $_SESSION['error']);
     
     <title>Connexion - Technova</title>
     
+    <!-- Google Fonts : Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <!-- Feuilles de style -->
     <link rel="stylesheet" href="/Technova/CSS/global.css">
     <link rel="stylesheet" href="/Technova/CSS/login.css">
@@ -138,7 +146,8 @@ unset($_SESSION['form_data'], $_SESSION['error']);
     <main class="main-content">
         <section class="formulaire-connexion">
             <div class="formulaire-container">
-                <h1>Connexion à votre compte</h1>
+                <h1>Bon retour 👋</h1>
+                <p class="form-subtitle">Connectez-vous à votre compte Technova</p>
                 
                 <?php if (!empty($error)): ?>
                     <div class="alert alert-error" role="alert">
@@ -164,16 +173,21 @@ unset($_SESSION['form_data'], $_SESSION['error']);
                     
                     <div class="form-field">
                         <label for="password">Mot de passe</label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            placeholder="Votre mot de passe" 
-                            required
-                            minlength="8"
-                            autocomplete="current-password"
-                            aria-describedby="password-help"
-                        >
+                        <div style="position: relative;">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                placeholder="••••••••" 
+                                required
+                                minlength="8"
+                                autocomplete="current-password"
+                                aria-describedby="password-help"
+                            >
+                            <button type="button" class="toggle-password" onclick="togglePassword('password')" aria-label="Afficher/masquer le mot de passe">
+                                <i class="fas fa-eye" id="toggle-password-icon"></i>
+                            </button>
+                        </div>
                         <small id="password-help" class="form-hint">
                             <a href="mot-de-passe-oublie.php">Mot de passe oublié ?</a>
                         </small>
@@ -200,38 +214,43 @@ unset($_SESSION['form_data'], $_SESSION['error']);
     
     <!-- Scripts JavaScript -->
     <script>
-    // Validation côté client pour améliorer l'expérience utilisateur
+    // Toggle visibilité mot de passe
+    function togglePassword(fieldId) {
+        const field = document.getElementById(fieldId);
+        const icon  = field.parentElement.querySelector('.toggle-password i');
+        if (field.type === 'password') {
+            field.type = 'text';
+            if (icon) icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            field.type = 'password';
+            if (icon) icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+
+    // Validation côté client
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form');
-        
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                const email = document.getElementById('email');
-                const password = document.getElementById('password');
-                let isValid = true;
-                
-                // Validation de l'email
-                if (!email.value || !email.validity.valid) {
-                    email.classList.add('error');
-                    isValid = false;
-                } else {
-                    email.classList.remove('error');
-                }
-                
-                // Validation du mot de passe
-                if (!password.value || password.value.length < 8) {
-                    password.classList.add('error');
-                    isValid = false;
-                } else {
-                    password.classList.remove('error');
-                }
-                
-                if (!isValid) {
-                    e.preventDefault();
-                    // Afficher un message d'erreur ou effectuer d'autres actions
-                }
-            });
-        }
+        if (!form) return;
+
+        form.addEventListener('submit', function(e) {
+            const email    = document.getElementById('email');
+            const password = document.getElementById('password');
+            let isValid    = true;
+
+            if (!email.value || !email.validity.valid) {
+                email.classList.add('error'); isValid = false;
+            } else {
+                email.classList.remove('error');
+            }
+
+            if (!password.value || password.value.length < 8) {
+                password.classList.add('error'); isValid = false;
+            } else {
+                password.classList.remove('error');
+            }
+
+            if (!isValid) e.preventDefault();
+        });
     });
     </script>
 </body>
