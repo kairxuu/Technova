@@ -81,6 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['pass
                         unset($_SESSION['redirect_after_login']);
                     }
                     
+                    // Toast de bienvenue affiché sur la page de destination
+                    $_SESSION['toast'] = '👋 Bienvenue, ' . htmlspecialchars($user['Identifiant']) . ' !';
+
                     // 12. Redirection sécurisée
                     header('Location: ' . htmlspecialchars($redirect, ENT_QUOTES, 'UTF-8'));
                     exit();

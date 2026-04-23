@@ -1,28 +1,25 @@
-/* FOOTER */
+/* Styles du pied de page, toujours collé en bas */
+
 footer {
-  background: var(--bg-surface);
-  border-top: 1px solid var(--border);
-  color: var(--text-muted);
+  margin-top: auto;
+  flex-shrink: 0;
+  background: #111111;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
   text-align: center;
   padding: 28px 24px;
   width: 100%;
-  margin-top: auto;
   font-size: var(--font-size-sm);
   font-weight: 400;
   letter-spacing: 0.2px;
-  position: relative;
-  z-index: 10;
 }
-footer p {
-  margin: 0;
-}
-footer strong,
-footer a {
-  color: var(--primary-light);
+footer p { margin: 0; }
+
+/* Liens et texte en gras dans le footer */
+footer strong, footer a {
+  color: rgba(255, 255, 255, 0.8);
   text-decoration: none;
   font-weight: 500;
   transition: color var(--transition-fast);
 }
-footer a:hover {
-  color: var(--text-primary);
-}
+footer a:hover { color: #ffffff; }

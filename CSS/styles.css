@@ -51,9 +51,9 @@ body {
   transition: all var(--transition);
 }
 .product:hover {
-  transform: translateY(-5px);
-  border-color: rgba(124, 58, 237, 0.3);
-  box-shadow: var(--shadow-lg), var(--shadow-glow);
+  transform: translateY(-2px);
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-md);
 }
 .product-image {
   width: 100%;

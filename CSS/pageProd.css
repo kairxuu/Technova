@@ -1,8 +1,6 @@
-/* PAGE PRODUITS */
-body {
-  background-color: var(--bg);
-  padding-top: 70px;
-}
+/* Styles de la page produits : grille et panneau de filtres */
+
+/* Titre de section avec un trait décoratif en dessous */
 h2 {
   margin: 48px 0 32px;
   text-align: center;
@@ -14,13 +12,14 @@ h2 {
 h2::after {
   content: "";
   display: block;
-  width: 50px;
-  height: 3px;
-  background: var(--gradient-primary);
+  width: 40px;
+  height: 2px;
+  background: var(--border-hover);
   border-radius: var(--radius-full);
-  margin: 14px auto 0;
+  margin: 12px auto 0;
 }
 
+/* La page est divisée en deux : filtres à gauche, grille à droite */
 .produits {
   display: flex;
   max-width: 1600px;
@@ -29,22 +28,15 @@ h2::after {
   gap: 32px;
   align-items: flex-start;
 }
-.container {
-  flex: 1;
-  padding: 0;
-  background: none;
-  min-width: 0;
-}
+.container { flex: 1; padding: 0; min-width: 0; }
+
+/* La grille de produits s'adapte à la largeur disponible */
 .products-grid {
-  display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 24px;
-  width: 100%;
-  margin: 0;
-  padding: 0;
 }
 
-/* Panneau filtre */
+/* Le panneau reste visible même en scrollant grâce au sticky */
 .panel {
   width: 260px;
   flex-shrink: 0;
@@ -59,9 +51,7 @@ h2::after {
   flex-direction: column;
   gap: 20px;
 }
-.panel h3,
-.panel label,
-.panel legend {
+.panel h3, .panel label, .panel legend {
   font-size: var(--font-size-sm);
   font-weight: 600;
   color: var(--text-secondary);
@@ -69,19 +59,42 @@ h2::after {
   text-transform: uppercase;
 }
 
-/* Filtre prix */
-.filtre-prix {
+/* Champ de recherche textuelle dans le panneau */
+.filtre-recherche {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
 }
+.search-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 8px 14px;
+  transition: border-color var(--transition-fast);
+}
+.search-input-wrapper:focus-within { border-color: var(--primary); }
+.search-input-wrapper svg   { color: var(--text-secondary); flex-shrink: 0; }
+.search-input-wrapper input {
+  border: none; background: transparent; outline: none;
+  font-family: var(--font); font-size: var(--font-size-sm);
+  color: var(--text-primary); width: 100%;
+}
+.search-input-wrapper input::placeholder { color: var(--text-muted); }
+
+/* Filtre par prix avec un slider */
+.filtre-prix { display: flex; flex-direction: column; gap: 14px; }
 .filtre-prix label {
   font-size: var(--font-size-sm);
   font-weight: 500;
   color: var(--text-secondary);
-  text-transform: none;
-  letter-spacing: 0;
 }
+
+/* Le slider se colore jusqu'à la valeur sélectionnée */
 .filtre-prix input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
@@ -103,69 +116,44 @@ h2::after {
   appearance: none;
   width: 18px;
   height: 18px;
-  background: var(--primary-light);
+  background: var(--primary);
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.2);
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
   transition: box-shadow var(--transition-fast);
 }
 .filtre-prix input[type="range"]::-webkit-slider-thumb:hover {
-  box-shadow: 0 0 0 6px rgba(124, 58, 237, 0.3);
+  box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.15);
 }
-.filtre-prix span,
-.filtre-prix output {
+.filtre-prix span, .filtre-prix output {
   font-size: var(--font-size-sm);
   color: var(--text-primary);
   font-weight: 600;
 }
-.filtre-prix button,
-.panel button {
+
+/* Bouton pour appliquer les filtres */
+.filtre-prix button, .panel button {
   padding: 10px 20px;
-  background: var(--gradient-primary);
-  color: white;
+  background: var(--primary);
+  color: #ffffff;
   border: none;
   border-radius: var(--radius-full);
   font-size: var(--font-size-sm);
   font-weight: 600;
   font-family: var(--font);
   cursor: pointer;
-  transition: all var(--transition);
-  box-shadow: 0 2px 10px rgba(124, 58, 237, 0.3);
+  transition: var(--transition);
   width: 100%;
 }
-.filtre-prix button:hover,
-.panel button:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.45);
-}
+.filtre-prix button:hover, .panel button:hover { background: var(--primary-light); }
 
-/* Responsive */
+/* Sur mobile, le panneau passe au-dessus de la grille */
 @media (max-width: 1024px) {
-  .produits {
-    flex-direction: column;
-    padding: 0 20px;
-  }
-  .panel {
-    width: 100%;
-    position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .filtre-prix {
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-  }
+  .produits { flex-direction: column; padding: 0 20px; }
+  .panel { width: 100%; position: static; flex-direction: row; flex-wrap: wrap; align-items: center; }
+  .filtre-prix { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 12px; }
 }
 @media (max-width: 768px) {
-  .produits {
-    padding: 0 12px;
-    gap: 20px;
-  }
-  h2 {
-    margin: 32px 0 24px;
-  }
+  .produits { padding: 0 12px; gap: 20px; }
+  h2 { margin: 32px 0 24px; }
 }

@@ -6,14 +6,17 @@
                         // Récupération des informations du produit
                         $lenom = isset($row["prodnom"]) ? htmlspecialchars($row["prodnom"]) : 'Produit sans nom';
                         $id = isset($row["idpro"]) ? intval($row["idpro"]) : 0;
+                        // On garde le prix brut (nombre décimal) pour le filtre JavaScript
+                        $prix_brut = isset($row["prodprix"]) ? floatval($row["prodprix"]) : 0;
+                        // On formate le prix pour l'affichage (ex: 1 299,99 €)
                         $leprix = isset($row["prodprix"]) ? number_format(floatval($row["prodprix"]), 2, ',', ' ') : '0,00';
                         $marque = !empty($row["marnom"]) ? 'Marque : ' . htmlspecialchars($row["marnom"]) : '';
                         $description = isset($row["proddesc"]) ? htmlspecialchars($row["proddesc"]) : 'Aucune description disponible';
                         $image = !empty($row["image"]) ? htmlspecialchars($row["image"]) : $id . '.webp';
                     ?>
                     
-                    <!-- Carte de produit individuelle -->
-                    <div class="product-card">
+                    <!-- data-price toujours avec un POINT (ex: 1299.99) pour que JS puisse le lire -->
+                    <div class="product-card" data-price="<?php echo sprintf('%.2f', $prix_brut); ?>">
                         <!-- Image du produit -->
                         <img src="components/images_pc/<?=$image?>" alt="<?=$lenom?>">
 

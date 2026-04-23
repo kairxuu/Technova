@@ -21,7 +21,7 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Technova</title>
+    <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Technova' ?></title>
     
     <!-- Google Fonts : Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,6 +32,7 @@ if (isset($_SESSION['user_id'])) {
     <link rel="stylesheet" href="/Technova/CSS/global.css">
     <link rel="stylesheet" href="/Technova/CSS/navbar.css">
     <link rel="stylesheet" href="/Technova/CSS/components.css">
+    <link rel="stylesheet" href="/Technova/CSS/footer.css">
     
     <!-- Icônes SVG en ligne pour les éléments de menu -->
     <style>
@@ -43,9 +44,59 @@ if (isset($_SESSION['user_id'])) {
             fill: currentColor;
         }
     </style>
+
+    <?php
+    // Feuilles de style supplémentaires définies par la page (ex: $extraCSS dans produits.php)
+    // Si la variable n'existe pas, on n'affiche rien
+    if (!empty($extraCSS)) {
+        foreach ($extraCSS as $css) {
+            echo '<link rel="stylesheet" href="' . htmlspecialchars($css) . '">' . "\n";
+        }
+    }
+
+    // Scripts supplémentaires définis par la page (ex: $extraJS dans produits.php)
+    // defer = le script se charge après le HTML pour ne pas bloquer l'affichage
+    if (!empty($extraJS)) {
+        foreach ($extraJS as $js) {
+            echo '<script src="' . htmlspecialchars($js) . '" defer></script>' . "\n";
+        }
+    }
+    ?>
 </head>
 
 <body>
+
+    <?php if (!empty($_SESSION['toast'])): ?>
+    <div id="toast-notif" style="
+        position: fixed;
+        top: 80px;
+        right: 24px;
+        z-index: 9999;
+        background: #18181b;
+        color: #f4f4f5;
+        border-radius: 10px;
+        padding: 13px 20px;
+        font-family: var(--font, sans-serif);
+        font-size: 0.9rem;
+        font-weight: 500;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+        min-width: 220px;
+        max-width: 340px;
+        animation: toastIn 0.25s ease;
+    "><?= htmlspecialchars($_SESSION['toast']) ?></div>
+    <style>
+        @keyframes toastIn  { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes toastOut { from { opacity:1; transform:translateY(0); }    to { opacity:0; transform:translateY(-10px); } }
+    </style>
+    <script>
+        setTimeout(function() {
+            var t = document.getElementById('toast-notif');
+            if (t) { t.style.animation = 'toastOut 0.3s ease forwards'; setTimeout(function(){ t.remove(); }, 300); }
+        }, 3000);
+    </script>
+    <?php unset($_SESSION['toast']); ?>
+    <?php endif; ?>
+
     <!-- Barre de navigation -->
     <nav class="navbar">
         <!-- Logo -->
@@ -53,21 +104,7 @@ if (isset($_SESSION['user_id'])) {
             <span>Technova</span>
         </a>
         
-        <!-- Barre de recherche -->
-        <form action="recherche.php" method="GET" class="search-bar" role="search">
-            <input 
-                type="text" 
-                name="q" 
-                placeholder="Rechercher un produit..." 
-                aria-label="Rechercher un produit"
-                required>
-            <button type="submit" class="search-button" aria-label="Lancer la recherche">
-                <svg class="icon" viewBox="0 0 24 24" width="18" height="18">
-                    <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                </svg>
-            </button>
-        </form>
-        
+
         <!-- Menu de navigation -->
         <ul class="menu">
             <li><a href="index.php" class="menu-item" aria-current="page">

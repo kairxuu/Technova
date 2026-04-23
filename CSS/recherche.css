@@ -28,9 +28,13 @@
   box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 .product-card img {
+  display: block;
   width: 100%;
   height: 200px;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
+  background: #f8f8f6;
+  padding: 12px;
   transition: transform var(--transition-slow);
 }
 .product-card:hover img {

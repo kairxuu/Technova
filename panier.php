@@ -8,6 +8,11 @@ if (session_status() !== PHP_SESSION_ACTIVE) {
 require_once 'db/db.php'; // Pour la connexion $conn
 require_once 'db/db_implement.php'; // Pour la fonction verifierCodePromo
 
+// Chargement du CSS spécifique à la page panier
+// (même système que produits.php — header.php injecte ce lien dans le <head>)
+$extraCSS = ['/Technova/CSS/panier.css'];
+$pageTitle = "Mon panier — Technova";
+
 // 2. Initialisation du panier s'il n'existe pas
 if (!isset($_SESSION['panier'])) {
     $_SESSION['panier'] = [];
@@ -33,16 +38,27 @@ if (isset($_GET['action'])) {
             case 'ajouter':
                 // Incrémente la quantité du produit dans le panier
                 $_SESSION['panier'][$id] = ($_SESSION['panier'][$id] ?? 0) + 1;
-                $_SESSION['message'] = 'Produit ajouté au panier.';
+                $_SESSION['toast'] = '✅ Produit ajouté au panier !';
                 break;
                 
             case 'supprimer':
-                // Supprime le produit du panier
+                if (isset($_SESSION['panier'][$id])) {
+                    if ($_SESSION['panier'][$id] > 1) {
+                        $_SESSION['panier'][$id]--;
+                        $_SESSION['toast'] = 'Quantité réduite.';
+                    } else {
+                        unset($_SESSION['panier'][$id]);
+                        $_SESSION['toast'] = 'Produit retiré du panier.';
+                    }
+                }
+                break;
+
+            case 'vider':
                 if (isset($_SESSION['panier'][$id])) {
                     unset($_SESSION['panier'][$id]);
-                    $_SESSION['message'] = 'Produit retiré du panier.';
+                    $_SESSION['toast'] = 'Produit retiré du panier.';
                 }
-                break;  
+                break;
         }
     }
 
@@ -144,52 +160,73 @@ require_once 'components/header.php';
                             <div class="infos-produit">
                                 <h3><?= htmlspecialchars($row['nom']) ?></h3>
                                 <?php if (!empty($row['marque'])): ?>
-                                    <p class="marque">Marque : <?= htmlspecialchars($row['marque']) ?></p>
+                                    <p class="marque"><?= htmlspecialchars($row['marque']) ?></p>
                                 <?php endif; ?>
-                                <p class="prix">Prix unitaire : <?= number_format($row['prix_unitaire'], 2, ',', ' ') ?> €</p>
-                                <p class="quantite">Quantité : <?= $quantite ?></p>
-                                <p class="sous-total">Sous-total : <?= number_format($sousTotal, 2, ',', ' ') ?> €</p>
+                                <p class="prix"><?= number_format($row['prix_unitaire'], 2, ',', ' ') ?> € / unité</p>
+                                <p class="sous-total"><?= number_format($sousTotal, 2, ',', ' ') ?> €</p>
                             </div>
                             
-                            <!-- Actions possibles sur le produit -->
+                            <!-- Actions : contrôle de quantité + suppression -->
                             <div class="actions">
-                                <a href="panier.php?action=ajouter&id=<?= $row['id'] ?>" 
-                                   class="btn-ajouter" 
-                                   title="Ajouter un exemplaire">
-                                    <i class="fas fa-plus"></i>
+
+                                <!-- Contrôle de quantité : bouton − / chiffre / bouton + -->
+                                <div class="qty-stepper">
+                                    <!-- Bouton diminuer (si quantité = 1, ça supprime le produit) -->
+                                    <a href="panier.php?action=supprimer&id=<?= $row['id'] ?>"
+                                       class="qty-btn qty-minus"
+                                       title="Réduire la quantité"
+                                       aria-label="Réduire la quantité">−</a>
+
+                                    <!-- Affichage de la quantité actuelle -->
+                                    <span class="qty-value"><?= $quantite ?></span>
+
+                                    <!-- Bouton augmenter -->
+                                    <a href="panier.php?action=ajouter&id=<?= $row['id'] ?>"
+                                       class="qty-btn qty-plus"
+                                       title="Augmenter la quantité"
+                                       aria-label="Augmenter la quantité">+</a>
+                                </div>
+
+                                <!-- Bouton supprimer entièrement -->
+                                <a href="panier.php?action=vider&id=<?= $row['id'] ?>"
+                                   class="btn-supprimer"
+                                   title="Retirer du panier"
+                                   onclick="return confirm('Retirer ce produit du panier ?')">
+                                    <!-- Icône corbeille SVG (pas besoin de Font Awesome) -->
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                                        <path d="M9 3v1H4v2h1v13a2 2 0 002 2h10a2 2 0 002-2V6h1V4h-5V3H9zm0 5h2v9H9V8zm4 0h2v9h-2V8z"/>
+                                    </svg>
                                 </a>
-                                <a href="panier.php?action=supprimer&id=<?= $row['id'] ?>" 
-                                   class="btn-supprimer" 
-                                   title="Supprimer du panier"
-                                   onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')">
-                                    <i class="fas fa-trash"></i>
-                                    <span class="sr-only">Supprimer</span>
-                                </a>
+
                             </div>
                         </article>
                     <?php endforeach; ?>
                 </div>
 
                 <div class="panier-total">
-                    <p>Total des achats : <strong><?= number_format($total, 2, ',', ' ') ?> €</strong></p>
-                    </div>
-                    </div>
-                    
-                    <div class="panier-actions">
-                        <a href="produits.php" class="btn btn-secondary">
-                            <i class="fas fa-arrow-left"></i> Continuer mes achats
-                        </a>
-                        <a href="paiement.php" class="btn btn-primary">
-                            Procéder au paiement <i class="fas fa-credit-card"></i>
-                        </a>
-                    </div>
+                    Total : <strong><?= number_format($total, 2, ',', ' ') ?> €</strong>
                 </div>
+                </div>
+                
+                <div class="panier-actions">
+                    <!-- Bouton retour aux produits -->
+                    <a href="produits.php" class="btn btn-secondary">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+                        Continuer mes achats
+                    </a>
+                    <!-- Bouton paiement -->
+                    <a href="paiement.php" class="btn btn-primary">
+                        Procéder au paiement
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg>
+                    </a>
+                </div>
+            </div>
 
-                <?php 
-                // Fermeture de la connexion à la base de données
-                $stmt->close();
-                $conn->close();
-                ?>
+            <?php 
+            // Fermeture de la connexion à la base de données
+            $stmt->close();
+            $conn->close();
+            ?>
             <?php endif; ?>
         </div>
     </section>
