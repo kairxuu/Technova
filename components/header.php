@@ -84,37 +84,59 @@ if (isset($_SESSION['user_id'])) {
                 <span>Produits</span>
             </a></li>
             
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <span class="nav-item user-info" title="Connecté">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                        <circle cx="12" cy="7" r="4"></circle>
-                    </svg>
-                    <?=htmlspecialchars($_SESSION["username"])?></span>   
-                <!-- Lien de déconnexion visible uniquement quand connecté -->
-                <li><a href="deconnexion.php" class="menu-item">
-                    
-                    <svg class="icon" viewBox="0 0 24 24" width="24" height="24">
-                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
-                    </svg>
-                    <span>Déconnexion</span>
-                </a></li>
-            <?php else: ?>
-                <!-- Liens visibles uniquement quand déconnecté -->
-                <li><a href="connexion.php" class="menu-item">
-                    <svg class="icon" viewBox="0 0 24 24" width="24" height="24">
-                        <path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z"/>
-                    </svg>
-                    <span>Connexion</span>
-                </a></li>
-                
-                <li><a href="inscription.php" class="menu-item">
-                    <svg class="icon" viewBox="0 0 24 24" width="24" height="24">
-                        <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
-                    </svg>
-                    <span>Inscription</span>
-                </a></li>
-            <?php endif; ?>
+            <!-- Bouton Profil avec Dropdown -->
+            <li class="profile-dropdown-wrapper">
+                <?php if (isset($_SESSION['user_id'])): ?>
+                    <!-- Utilisateur connecté : affiche son nom -->
+                    <button class="profile-btn profile-btn--logged" id="profileBtn" aria-haspopup="true" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                        </svg>
+                        <span><?= htmlspecialchars($_SESSION['username']) ?></span>
+                        <svg class="profile-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 10l5 5 5-5z"/>
+                        </svg>
+                    </button>
+                    <div class="profile-dropdown" id="profileDropdown" role="menu">
+                        <div class="profile-dropdown__header">
+                            <span class="profile-dropdown__name"><?= htmlspecialchars($_SESSION['username']) ?></span>
+                            <span class="profile-dropdown__label">Mon compte</span>
+                        </div>
+                        <div class="profile-dropdown__divider"></div>
+                        <a href="deconnexion.php" class="profile-dropdown__item profile-dropdown__item--danger" role="menuitem">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                            </svg>
+                            Déconnexion
+                        </a>
+                    </div>
+                <?php else: ?>
+                    <!-- Utilisateur non connecté : icône profil générique -->
+                    <button class="profile-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                        </svg>
+                        <span>Mon compte</span>
+                        <svg class="profile-chevron" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M7 10l5 5 5-5z"/>
+                        </svg>
+                    </button>
+                    <div class="profile-dropdown" id="profileDropdown" role="menu">
+                        <a href="connexion.php" class="profile-dropdown__item" role="menuitem">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M11 7L9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5zm9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14z"/>
+                            </svg>
+                            Se connecter
+                        </a>
+                        <a href="inscription.php" class="profile-dropdown__item" role="menuitem">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                            </svg>
+                            S'inscrire
+                        </a>
+                    </div>
+                <?php endif; ?>
+            </li>
             
             <!-- Panier -->
             <li><a href="panier.php" class="menu-item">
@@ -125,6 +147,30 @@ if (isset($_SESSION['user_id'])) {
             </a></li>
         </ul>
     </nav>
-    
+
+    <script>
+        (function () {
+            var btn = document.getElementById('profileBtn');
+            var dropdown = document.getElementById('profileDropdown');
+            if (!btn || !dropdown) return;
+
+            btn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var isOpen = dropdown.classList.toggle('profile-dropdown--open');
+                btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                btn.classList.toggle('profile-btn--active', isOpen);
+            });
+
+            document.addEventListener('click', function () {
+                dropdown.classList.remove('profile-dropdown--open');
+                btn.setAttribute('aria-expanded', 'false');
+                btn.classList.remove('profile-btn--active');
+            });
+
+            dropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+            });
+        })();
+    </script>
 
     <main class="main-content">
