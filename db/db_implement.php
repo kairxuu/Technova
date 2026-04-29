@@ -1,5 +1,5 @@
 <?php
-// Requête SQL pour récupérer les produits
+// Requête : tous les produits avec leur marque
 $sql = "SELECT 
             p.ID_PRO as 'idpro', 
             p.Nom as 'prodnom', 

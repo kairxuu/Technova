@@ -1,50 +1,39 @@
 <div class="products-grid">
                 <?php
-                    // Boucle pour afficher chaque produit
                     while($row = mysqli_fetch_array($res, MYSQLI_ASSOC))
                     {
-                        // Récupération des informations du produit
-                        $lenom = isset($row["prodnom"]) ? htmlspecialchars($row["prodnom"]) : 'Produit sans nom';
-                        $id = isset($row["idpro"]) ? intval($row["idpro"]) : 0;
-                        // On garde le prix brut (nombre décimal) pour le filtre JavaScript
-                        $prix_brut = isset($row["prodprix"]) ? floatval($row["prodprix"]) : 0;
-                        // On formate le prix pour l'affichage (ex: 1 299,99 €)
-                        $leprix = isset($row["prodprix"]) ? number_format(floatval($row["prodprix"]), 2, ',', ' ') : '0,00';
-                        $marque = !empty($row["marnom"]) ? 'Marque : ' . htmlspecialchars($row["marnom"]) : '';
+                        // Données du produit
+                        $lenom     = isset($row["prodnom"])  ? htmlspecialchars($row["prodnom"])  : 'Produit sans nom';
+                        $id        = isset($row["idpro"])    ? intval($row["idpro"])              : 0;
+                        $prix_brut = isset($row["prodprix"]) ? floatval($row["prodprix"])         : 0;            // prix brut pour JS
+                        $leprix    = isset($row["prodprix"]) ? number_format(floatval($row["prodprix"]), 2, ',', ' ') : '0,00'; // prix affiché
+                        $marque      = !empty($row["marnom"])  ? 'Marque : ' . htmlspecialchars($row["marnom"]) : '';
                         $description = isset($row["proddesc"]) ? htmlspecialchars($row["proddesc"]) : 'Aucune description disponible';
-                        $image = !empty($row["image"]) ? htmlspecialchars($row["image"]) : $id . '.webp';
+                        $image       = !empty($row["image"])   ? htmlspecialchars($row["image"])   : $id . '.webp';
                     ?>
                     
-                    <!-- data-price toujours avec un POINT (ex: 1299.99) pour que JS puisse le lire -->
+                    <!-- data-price avec point décimal pour JS -->
                     <div class="product-card" data-price="<?php echo sprintf('%.2f', $prix_brut); ?>">
-                        <!-- Image du produit -->
                         <img src="components/images_pc/<?=$image?>" alt="<?=$lenom?>">
-
-                        <!-- Affichage du nom du produit -->
                         <h3><?php echo $lenom; ?></h3>
-                        
-                        <!-- Affichage de la marque du produit (si disponible) -->
                         <?php if (!empty($marque)): ?>
                             <p class="product-brand"><?php echo $marque; ?></p>
                         <?php endif; ?>
-                        
-                        <!-- Description du produit avec limitation de caractères -->
+
                         <p class="product-description">
-                            <?php 
-                            // Affichage des 100 premiers caractères de la description
-                            echo strlen($description) > 100 ? 
-                                substr($description, 0, 100) . '...' : 
-                                $description; 
+                            <?php // Tronque la description à 100 caractères
+                            echo strlen($description) > 100 ?
+                                substr($description, 0, 100) . '...' :
+                                $description;
                             ?>
                         </p>
                         
-                        <!-- Prix du produit -->
-                        <div class="product-price" 
-                             data-produit-id="<?php echo $id; ?>">
+                        <!-- Prix -->
+                        <div class="product-price" data-produit-id="<?php echo $id; ?>">
                             <?php echo $leprix; ?> €
                         </div>
                         
-                        <!-- Bouton d'ajout au panier -->
+                        <!-- Bouton panier -->
                         <form action="panier.php" method="get" class="add-to-cart-form">
                             <input type="hidden" name="action" value="ajouter">
                             <input type="hidden" name="id" value="<?php echo $id; ?>">

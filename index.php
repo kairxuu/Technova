@@ -38,12 +38,11 @@ include 'components/header.php';
 
             <div class="products-grid">
                 <?php
-                    // Réinitialiser le pointeur du résultat
-                    mysqli_data_seek($res, 0);
-                    // Boucle pour afficher chaque produit
+                    mysqli_data_seek($res, 0); // Reset du pointeur
+                    // Affichage des produits
                     while($row = mysqli_fetch_array($res, MYSQLI_ASSOC))
                     {
-                        // Récupération des informations du produit
+                        // Données du produit
                         $lenom = isset($row["prodnom"]) ? htmlspecialchars($row["prodnom"]) : 'Produit sans nom';
                         $id = isset($row["idpro"]) ? intval($row["idpro"]) : 0;
                         $leprix = isset($row["prodprix"]) ? number_format(floatval($row["prodprix"]), 2, ',', ' ') : '0,00';
@@ -52,29 +51,23 @@ include 'components/header.php';
                         $image = !empty($row["image"]) ? htmlspecialchars($row["image"]) : $id . '.webp';
                     ?>
                     
-                    <!-- Carte de produit individuelle -->
-                    <!-- Carte de produit individuelle -->
-                    <!--
-                        Une carte de produit individuelle est une représentation visuelle d'un produit.
-                        Elle contient des informations telles que le nom, la marque, la description, le prix et le bouton d'ajout au panier.
-                        Chaque carte de produit est générée à partir des informations du produit récupérées de la base de données.
-                    -->
+                    <!-- Carte produit -->
                     <div class="product-card">
-                        <!-- Image du produit -->
+
                         <img src="components/images_pc/<?=$image?>" alt="<?=$lenom?>">
-                        <!-- Contenu de la carte de produit -->
+
                         <div class="card-content">
-                            <!-- Nom du produit -->
+
                             <h3><?php echo $lenom; ?></h3>
-                            <!-- Marque du produit (si elle existe) -->
+
                             <?php if (!empty($marque)): ?>
                                 <p class="marque"><?php echo $marque; ?></p>
                             <?php endif; ?>
-                            <!-- Description du produit -->
+
                             <p class="description"><?php echo $description; ?></p>
-                            <!-- Prix du produit -->
+
                             <p class="prix"><strong>Prix : <?php echo $leprix; ?> €</strong></p>
-                            <!-- Bouton d'ajout au panier -->
+
                             <form action="panier.php" method="get" class="add-to-cart-form">
                                 <input type="hidden" name="action" value="ajouter">
                                 <input type="hidden" name="id" value="<?php echo $id; ?>">

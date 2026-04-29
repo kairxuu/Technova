@@ -1,9 +1,9 @@
 <?php
 
-define("HOST", "localhost");     // Adresse du serveur MySQL
-define("USER", "root");          // Nom d'utilisateur MySQL
-define("MDP", "root");           // Mot de passe MySQL
-define("DB", "bts1aurlom");     // Nom de la base de données
+define("HOST", "localhost");
+define("USER", "root");
+define("MDP",  "root");
+define("DB",   "bts1aurlom");
 
 $conn = mysqli_connect(HOST, USER, MDP, DB);
 
@@ -11,9 +11,6 @@ if (!$conn) {
     die("Erreur de connexion : " . mysqli_connect_error());
 }
 
-// Définition du jeu de caractères en UTF-8 pour éviter les problèmes d'encodage
-mysqli_set_charset($conn, 'utf8');
-
-// Définition du fuseau horaire (optionnel mais recommandé)
+mysqli_set_charset($conn, 'utf8'); // Encodage UTF-8
 date_default_timezone_set('Europe/Paris');
 ?>

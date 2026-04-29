@@ -1,5 +1,5 @@
 <?php
-// NE PAS ajouter de structure HTML complète ici — ce fichier est inclus dans une page existante
+// Inclus dans une page existante — pas de structure HTML complète ici.
 ?>
 <footer>
     <p>&copy; 2025 <strong>Technova</strong>. Tous droits réservés.</p>

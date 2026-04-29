@@ -1,18 +1,11 @@
 <?php 
-// Vérification si une session n'est pas déjà active avant d'en démarrer une nouvelle
-if (session_status() !== PHP_SESSION_ACTIVE) {
-    session_start();
-}
+if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
-// Récupération du nombre d'articles dans le panier
 $cartCount = isset($_SESSION['panier']) ? count($_SESSION['panier']) : 0;
-
-// Initialisation de la requête SQL
 $sql = '';
 
-// Vérification si l'utilisateur est connecté avant de construire la requête
 if (isset($_SESSION['user_id'])) {
-    $user_id = intval($_SESSION['user_id']); // Sécurisation de l'ID utilisateur
+    $user_id = intval($_SESSION['user_id']);
     $sql = "SELECT Id_Client FROM client WHERE ID_Client = " . $user_id;
 }
 ?>
@@ -23,44 +16,21 @@ if (isset($_SESSION['user_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= isset($pageTitle) ? htmlspecialchars($pageTitle) : 'Technova' ?></title>
     
-    <!-- Google Fonts : Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-    <!-- Feuilles de style -->
     <link rel="stylesheet" href="/Technova/CSS/global.css">
     <link rel="stylesheet" href="/Technova/CSS/navbar.css">
     <link rel="stylesheet" href="/Technova/CSS/components.css">
     <link rel="stylesheet" href="/Technova/CSS/footer.css">
-    
-    <!-- Icônes SVG en ligne pour les éléments de menu -->
     <style>
-        .icon {
-            width: 1em;
-            height: 1em;
-            margin-right: 0.5em;
-            vertical-align: -0.15em;
-            fill: currentColor;
-        }
+        .icon { width: 1em; height: 1em; margin-right: 0.5em; vertical-align: -0.15em; fill: currentColor; }
     </style>
 
     <?php
-    // Feuilles de style supplémentaires définies par la page (ex: $extraCSS dans produits.php)
-    // Si la variable n'existe pas, on n'affiche rien
-    if (!empty($extraCSS)) {
-        foreach ($extraCSS as $css) {
-            echo '<link rel="stylesheet" href="' . htmlspecialchars($css) . '">' . "\n";
-        }
-    }
-
-    // Scripts supplémentaires définis par la page (ex: $extraJS dans produits.php)
-    // defer = le script se charge après le HTML pour ne pas bloquer l'affichage
-    if (!empty($extraJS)) {
-        foreach ($extraJS as $js) {
-            echo '<script src="' . htmlspecialchars($js) . '" defer></script>' . "\n";
-        }
-    }
+    // CSS et JS supplémentaires définis par la page
+    if (!empty($extraCSS)) foreach ($extraCSS as $css) echo '<link rel="stylesheet" href="' . htmlspecialchars($css) . '">' . "\n";
+    if (!empty($extraJS))  foreach ($extraJS  as $js)  echo '<script src="' . htmlspecialchars($js) . '" defer></script>' . "\n";
     ?>
 </head>
 
@@ -97,15 +67,10 @@ if (isset($_SESSION['user_id'])) {
     <?php unset($_SESSION['toast']); ?>
     <?php endif; ?>
 
-    <!-- Barre de navigation -->
     <nav class="navbar">
-        <!-- Logo -->
-        <a href="index.php" class="logo">
-            <span>Technova</span>
-        </a>
-        
+        <a href="index.php" class="logo"><span>Technova</span></a>
 
-        <!-- Menu de navigation -->
+        <!-- Navigation -->
         <ul class="menu">
             <li><a href="index.php" class="menu-item" aria-current="page">
                 <svg class="icon" viewBox="0 0 24 24" width="24" height="24">
@@ -121,10 +86,9 @@ if (isset($_SESSION['user_id'])) {
                 <span>Produits</span>
             </a></li>
             
-            <!-- Bouton Profil avec Dropdown -->
+            <!-- Profil -->
             <li class="profile-dropdown-wrapper">
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <!-- Utilisateur connecté : affiche son nom -->
                     <button class="profile-btn profile-btn--logged" id="profileBtn" aria-haspopup="true" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
@@ -148,7 +112,6 @@ if (isset($_SESSION['user_id'])) {
                         </a>
                     </div>
                 <?php else: ?>
-                    <!-- Utilisateur non connecté : icône profil générique -->
                     <button class="profile-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
@@ -175,7 +138,6 @@ if (isset($_SESSION['user_id'])) {
                 <?php endif; ?>
             </li>
             
-            <!-- Panier -->
             <li><a href="panier.php" class="menu-item">
                 <svg class="icon" viewBox="0 0 24 24" width="24" height="24">
                     <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>

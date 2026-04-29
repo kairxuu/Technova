@@ -39,15 +39,14 @@ include 'db/db_implement.php';
 
 </section>
 
-<!-- Script inline : pas de defer, s'exécute après le HTML -->
 <script>
-// --- Mise à jour de l'affichage du prix sous le slider ---
+// Mise à jour du prix affiché sous le slider
 document.getElementById('price-slider').addEventListener('input', function() {
     var val = parseInt(this.value);
     document.getElementById('price-range').textContent = val.toLocaleString('fr-FR') + ' €';
 });
 
-// --- Filtre au clic sur "Appliquer le filtre" ---
+// Filtre au clic
 document.getElementById('apply-filter').addEventListener('click', function() {
     var prixMax = parseInt(document.getElementById('price-slider').value);
     var texte   = document.getElementById('search-produits').value.toLowerCase().trim();
@@ -64,9 +63,9 @@ document.getElementById('apply-filter').addEventListener('click', function() {
     });
 });
 
-// --- Filtre texte en temps réel ---
+// Filtre texte en temps réel
 document.getElementById('search-produits').addEventListener('input', function() {
-    // Simule un clic sur le bouton pour appliquer les deux filtres ensemble
+    // Applique les deux filtres ensemble
     document.getElementById('apply-filter').click();
 });
 </script>
