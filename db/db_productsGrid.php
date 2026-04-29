@@ -1,5 +1,6 @@
 <div class="products-grid">
                 <?php
+                    require_once __DIR__ . '/db_implement.php'; // Garantit que $res est disponible
                     while($row = mysqli_fetch_array($res, MYSQLI_ASSOC))
                     {
                         // Données du produit
