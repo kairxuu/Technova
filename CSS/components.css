@@ -20,26 +20,12 @@
   height: 100%;
   max-width: 400px;
   margin: 0 auto;
-  transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
-  contain: layout style paint;
-  /* Animation d'entrée (activée via JS Intersection Observer) */
-  opacity: 0;
-  transform: translateY(16px);
-}
-.product-card.visible {
-  opacity: 1;
-  transform: translateY(0);
-  transition:
-    border-color var(--transition),
-    box-shadow var(--transition),
-    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition);
 }
 .product-card:hover {
   border-color: var(--border-hover);
   box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
-  will-change: transform, box-shadow;
+  transform: translateY(-2px);
 }
 
 /* L'image affiche le produit en entier sans recadrage */
@@ -53,11 +39,8 @@
   flex-shrink: 0;
   padding: 12px;
   transition: transform var(--transition-slow);
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 }
-.product-card:hover img { transform: scale(1.04) translateZ(0); }
+.product-card:hover img { transform: scale(1.04); }
 
 /* Le titre est limité à 2 lignes pour garder les cartes uniformes */
 .product-card h3 {
