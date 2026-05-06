@@ -1,8 +1,10 @@
 <?php 
-require_once 'db/db.php';
-include 'db/db_implement.php';
-include 'components/header.php';
+// --- PAGE D'ACCUEIL ---
+// Affiche le bandeau hero et un aperçu des produits populaires.
 
+require_once 'db/db.php';        // Connexion à la base de données
+include 'db/db_implement.php';   // Requête produits (définit $res)
+include 'components/header.php'; // Navbar + début du <body>
 ?>
 
 <!DOCTYPE html>
@@ -38,17 +40,17 @@ include 'components/header.php';
 
             <div class="products-grid">
                 <?php
-                    mysqli_data_seek($res, 0); // Reset du pointeur
-                    // Affichage des produits
+                    mysqli_data_seek($res, 0); // Remet le curseur au début (car $res peut déjà avoir été parcouru)
+                    // Parcourt chaque produit pour générer une carte
                     while($row = mysqli_fetch_array($res, MYSQLI_ASSOC))
                     {
-                        // Données du produit
-                        $lenom = isset($row["prodnom"]) ? htmlspecialchars($row["prodnom"]) : 'Produit sans nom';
-                        $id = isset($row["idpro"]) ? intval($row["idpro"]) : 0;
-                        $leprix = isset($row["prodprix"]) ? number_format(floatval($row["prodprix"]), 2, ',', ' ') : '0,00';
-                        $marque = !empty($row["marnom"]) ? 'Marque : ' . htmlspecialchars($row["marnom"]) : '';
+                        // Extraction et sécurisation des données de chaque ligne de résultat
+                        $lenom       = isset($row["prodnom"])  ? htmlspecialchars($row["prodnom"])  : 'Produit sans nom';
+                        $id          = isset($row["idpro"])    ? intval($row["idpro"])              : 0;
+                        $leprix      = isset($row["prodprix"]) ? number_format(floatval($row["prodprix"]), 2, ',', ' ') : '0,00';
+                        $marque      = !empty($row["marnom"])  ? 'Marque : ' . htmlspecialchars($row["marnom"]) : '';
                         $description = isset($row["proddesc"]) ? htmlspecialchars($row["proddesc"]) : 'Aucune description disponible';
-                        $image = !empty($row["image"]) ? htmlspecialchars($row["image"]) : $id . '.webp';
+                        $image       = !empty($row["image"])   ? htmlspecialchars($row["image"])   : $id . '.webp'; // Fallback : image nommée par l'ID
                     ?>
                     
                     <!-- Carte produit -->

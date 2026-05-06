@@ -45,9 +45,9 @@
   --shadow-lg: 0 6px 20px rgba(0, 0, 0, 0.11);
 
   /* Vitesses d'animation */
-  --transition:      all 0.2s ease;
-  --transition-fast: 0.15s ease;
-  --transition-slow: 0.3s ease;
+  --transition:      all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Police et tailles de texte */
   --font:          "Inter", system-ui, sans-serif;
@@ -63,7 +63,7 @@
 }
 
 /* Le html et body remplissent toute la hauteur de l'écran */
-html { scroll-behavior: smooth; font-size: 16px; height: 100%; }
+html { scroll-behavior: smooth; font-size: 16px; height: 100%; text-rendering: optimizeSpeed; }
 html, body { margin: 0; padding: 0; }
 
 /* Le body est une colonne flex pour coller le footer en bas */
@@ -77,6 +77,8 @@ body {
   min-height: 100vh;
   padding-top: 70px;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: none;
 }
 
 /* Le contenu principal prend tout l'espace disponible entre navbar et footer */
@@ -92,3 +94,29 @@ footer { margin-top: auto; flex-shrink: 0; }
 ::-webkit-scrollbar        { width: 5px; }
 ::-webkit-scrollbar-track  { background: var(--bg); }
 ::-webkit-scrollbar-thumb  { background: #d0d0d0; border-radius: var(--radius-full); }
+::-webkit-scrollbar-thumb:hover { background: #b0b0b0; }
+
+/* Animation d'entrée de page */
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.main-content {
+  animation: pageIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Optimisation GPU pour les éléments interactifs */
+a, button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Réduction des repaints sur les éléments fixed */
+.navbar {
+  will-change: transform;
+  contain: layout style;
+}
+
+/* Images : rendu optimisé */
+img {
+  image-rendering: -webkit-optimize-contrast;
+}

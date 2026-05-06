@@ -1,16 +1,17 @@
 <div class="products-grid">
                 <?php
                     require_once __DIR__ . '/db_implement.php'; // Garantit que $res est disponible
+                    // Parcourt chaque ligne du résultat SQL pour générer une carte produit
                     while($row = mysqli_fetch_array($res, MYSQLI_ASSOC))
                     {
-                        // Données du produit
+                        // Extraction et sécurisation des données du produit
                         $lenom     = isset($row["prodnom"])  ? htmlspecialchars($row["prodnom"])  : 'Produit sans nom';
                         $id        = isset($row["idpro"])    ? intval($row["idpro"])              : 0;
                         $prix_brut = isset($row["prodprix"]) ? floatval($row["prodprix"])         : 0;            // prix brut pour JS
                         $leprix    = isset($row["prodprix"]) ? number_format(floatval($row["prodprix"]), 2, ',', ' ') : '0,00'; // prix affiché
                         $marque      = !empty($row["marnom"])  ? 'Marque : ' . htmlspecialchars($row["marnom"]) : '';
                         $description = isset($row["proddesc"]) ? htmlspecialchars($row["proddesc"]) : 'Aucune description disponible';
-                        $image       = !empty($row["image"])   ? htmlspecialchars($row["image"])   : $id . '.webp';
+                        $image       = !empty($row["image"])   ? htmlspecialchars($row["image"])   : $id . '.webp'; // Fallback : image nommée par l'ID du produit
                     ?>
                     
                     <!-- data-price avec point décimal pour JS -->

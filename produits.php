@@ -1,9 +1,12 @@
 <?php
-require_once "db/db.php";
-$extraCSS  = ['/Technova/CSS/pageProd.css'];
-$pageTitle = "Nos produits — Technova";
-include 'components/header.php';
-include 'db/db_implement.php';
+// --- PAGE PRODUITS ---
+// Affiche tous les produits avec un filtre prix et une barre de recherche.
+
+require_once "db/db.php";          // Connexion à la base de données
+$extraCSS  = ['/Technova/CSS/pageProd.css']; // CSS spécifique à cette page (injecté par header.php)
+$pageTitle = "Nos produits — Technova";      // Titre de l'onglet navigateur
+include 'components/header.php';   // Navbar + début du <body>
+include 'db/db_implement.php';     // Requête SQL produits (définit $res)
 ?>
 
 <h2>Nos produits</h2>
@@ -40,13 +43,13 @@ include 'db/db_implement.php';
 </section>
 
 <script>
-// Mise à jour du prix affiché sous le slider
+// Met à jour l'affichage du prix max sous le slider quand l'utilisateur le déplace
 document.getElementById('price-slider').addEventListener('input', function() {
     var val = parseInt(this.value);
     document.getElementById('price-range').textContent = val.toLocaleString('fr-FR') + ' €';
 });
 
-// Filtre au clic
+// Filtre au clic sur "Appliquer le filtre" : masque les cartes qui ne correspondent pas
 document.getElementById('apply-filter').addEventListener('click', function() {
     var prixMax = parseInt(document.getElementById('price-slider').value);
     var texte   = document.getElementById('search-produits').value.toLowerCase().trim();
@@ -59,13 +62,14 @@ document.getElementById('apply-filter').addEventListener('click', function() {
         var okPrix   = prix <= prixMax;
         var okTexte  = texte === '' || nom.toLowerCase().includes(texte) || marque.toLowerCase().includes(texte);
 
+        // Affiche la carte si prix ET texte correspondent, sinon la masque
         carte.style.display = (okPrix && okTexte) ? '' : 'none';
     });
 });
 
-// Filtre texte en temps réel
+// Filtre texte en temps réel : déclenche le filtre à chaque frappe dans la barre de recherche
 document.getElementById('search-produits').addEventListener('input', function() {
-    // Applique les deux filtres ensemble
+    // Simule un clic sur "Appliquer" pour combiner les deux filtres (prix + texte)
     document.getElementById('apply-filter').click();
 });
 </script>

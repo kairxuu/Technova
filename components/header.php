@@ -1,11 +1,17 @@
 <?php 
+// --- EN-TÊTE DU SITE ---
+// Inclus dans toutes les pages. Gère la session, la navbar et les toasts de notification.
+
+// Démarre la session si elle n'est pas encore active
 if (session_status() !== PHP_SESSION_ACTIVE) session_start();
 
+// Nombre d'articles distincts dans le panier (utilisé pour afficher un badge)
 $cartCount = isset($_SESSION['panier']) ? count($_SESSION['panier']) : 0;
 $sql = '';
 
+// Si l'utilisateur est connecté, prépare une requête pour vérifier son compte
 if (isset($_SESSION['user_id'])) {
-    $user_id = intval($_SESSION['user_id']);
+    $user_id = intval($_SESSION['user_id']); // intval() empêche l'injection SQL
     $sql = "SELECT Id_Client FROM client WHERE ID_Client = " . $user_id;
 }
 ?>
@@ -36,6 +42,7 @@ if (isset($_SESSION['user_id'])) {
 
 <body>
 
+    <!-- Notification toast (message flash affiché en haut à droite) -->
     <?php if (!empty($_SESSION['toast'])): ?>
     <div id="toast-notif" style="
         position: fixed;
@@ -64,7 +71,7 @@ if (isset($_SESSION['user_id'])) {
             if (t) { t.style.animation = 'toastOut 0.3s ease forwards'; setTimeout(function(){ t.remove(); }, 300); }
         }, 3000);
     </script>
-    <?php unset($_SESSION['toast']); ?>
+    <?php unset($_SESSION['toast']); // Supprime le toast après affichage pour ne pas le réafficher ?>
     <?php endif; ?>
 
     <nav class="navbar">
@@ -86,9 +93,9 @@ if (isset($_SESSION['user_id'])) {
                 <span>Produits</span>
             </a></li>
             
-            <!-- Profil -->
+            <!-- Profil avec dropdown -->
             <li class="profile-dropdown-wrapper">
-                <?php if (isset($_SESSION['user_id'])): ?>
+                <?php if (isset($_SESSION['user_id'])): // Utilisateur connecté ?>
                     <button class="profile-btn profile-btn--logged" id="profileBtn" aria-haspopup="true" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
@@ -111,7 +118,7 @@ if (isset($_SESSION['user_id'])) {
                             Déconnexion
                         </a>
                     </div>
-                <?php else: ?>
+                <?php else: // Utilisateur non connecté : affiche Se connecter / S'inscrire ?>
                     <button class="profile-btn" id="profileBtn" aria-haspopup="true" aria-expanded="false">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                             <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
@@ -148,6 +155,7 @@ if (isset($_SESSION['user_id'])) {
     </nav>
 
     <script>
+        // Script de gestion du dropdown profil (ouverture/fermeture au clic)
         (function () {
             var btn = document.getElementById('profileBtn');
             var dropdown = document.getElementById('profileDropdown');

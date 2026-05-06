@@ -1,13 +1,15 @@
 <?php
-// Recherche de produits par nom ou description.
+// --- RECHERCHE ---
+// Recherche des produits dans la base de données par nom ou description.
 
-session_start();
-require_once 'db/db.php';
+session_start(); // Nécessaire pour accéder aux variables de session (ex: user_id)
+require_once 'db/db.php'; // Connexion à la base ($conn)
 
-// Terme de recherche sécurisé
+// Récupère le terme saisi dans la barre de recherche (paramètre ?q= dans l'URL)
+// trim() supprime les espaces, htmlspecialchars() protège contre les injections XSS
 $search = isset($_GET['q']) ? trim(htmlspecialchars($_GET['q'])) : '';
 
-// Affiche les produits sous forme de grille
+// Génère la grille HTML des produits à partir d'un résultat de requête SQL
 function displayProducts($result) {
     if (mysqli_num_rows($result) > 0) {
         echo '<div class="products-grid">';
@@ -90,6 +92,7 @@ function displayProducts($result) {
         <?php if (!empty($search)): ?>
             <?php
             try {
+                // Vérifie que la connexion est active avant d'exécuter la requête
                 if (!isset($conn) || !$conn) throw new Exception("Erreur de connexion à la base de données");
 
                 $sql = "SELECT p.ID_PRO as 'idpro', p.Nom as 'prodnom', p.Description as 'proddesc',
@@ -98,10 +101,12 @@ function displayProducts($result) {
                         LEFT JOIN marque m ON p.ID_Marque = m.ID_Marque
                         WHERE p.Nom LIKE ? OR p.Description LIKE ?";
 
+                // Ajoute les % autour du terme pour la recherche partielle (LIKE %mot%)
                 $searchTerm = "%$search%";
                 $stmt = mysqli_prepare($conn, $sql);
                 if (!$stmt) throw new Exception("Erreur de préparation : " . mysqli_error($conn));
 
+                // Lie le terme de recherche aux deux paramètres (Nom et Description)
                 mysqli_stmt_bind_param($stmt, "ss", $searchTerm, $searchTerm);
                 mysqli_stmt_execute($stmt);
                 $result = mysqli_stmt_get_result($stmt);
@@ -135,7 +140,7 @@ function displayProducts($result) {
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Hover sur les cartes
+        // Effet de survol sur les cartes produit (léger lift)
         document.querySelectorAll('.product-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
                 this.style.transform = 'translateY(-5px)';
@@ -154,7 +159,7 @@ function displayProducts($result) {
             });
         });
 
-        // Feedback visuel ajout panier
+        // Feedback visuel quand on clique sur "Ajouter au panier" (affiche une coche temporaire)
         document.querySelectorAll('.add-to-cart').forEach(button => {
             button.addEventListener('click', function(e) {
                 e.preventDefault();
